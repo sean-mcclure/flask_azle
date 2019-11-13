@@ -63,7 +63,11 @@ az.style_button("save_notes_button", 1, {
 az.add_event("save_notes_button", 1, {
     "type" : "click",
     "function" : function() {
-
+        target_layout_cell_instance = az.get_target_instance(az.hold_value.clicked_img_id) + 1;
+        az.add_html("uploaded_img_layout_cells", target_layout_cell_instance, {
+            "html" : "<div class='hold_note' style='color: white'>" + az.grab_value('notes_textarea', 1) + "</div>"
+        })
+        az.close_modal()
     }
 })
 }

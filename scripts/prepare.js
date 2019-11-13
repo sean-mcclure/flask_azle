@@ -215,37 +215,16 @@ az.style_iframe("show_paper", 1, {
     "width": "100%",
     "height": "100%"
 })
-az.add_layout("my_sections", 2, {
-    "this_class": "options_layout",
-    "row_class": "options_layout_rows",
-    "cell_class": "options_layout_cells",
-    "number_of_rows": 1,
-    "number_of_columns": 3
+
+
+az.add_text("my_sections", 2, {
+    "this_class": "main_title_2",
+    "text": "GATHERED MATERIAL"
 })
-az.style_layout("options_layout", 1, {
-    "height": "auto",
-    "width": "auto",
+az.style_text("main_title_2", 1, {
+    "color": "white",
     "align": "center",
+    "font-size": "30px",
     "margin-bottom": "10px"
 })
-option_titles = ['EFFORT', 'COOKING TIME', 'SOMETHING']
-az.call_multiple({
-    "iterations": 3,
-    "function": function(elem, index) {
-        az.add_text("options_layout_cells", index + 1, {
-            "this_class": "set_options_titles",
-            "text": option_titles[index]
-        })
-        az.all_style_text("set_options_titles", {
-            "color": "white",
-            "font-size": "20px",
-            "align": "center"
-        })
-        az.add_slider("options_layout_cells", index + 1, {
-            "this_class": "my_slider",
-            "default_value": 0,
-            "min_value": 0,
-            "max_value": 5
-        })
-    }
-})
+
