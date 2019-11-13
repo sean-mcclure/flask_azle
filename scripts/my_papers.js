@@ -12,7 +12,7 @@ function pop_papers() {
     })
     az.add_text("papers_modal_content", 1, {
         "this_class": "papers_title",
-        "text": "MY PAPERS"
+        "text": "MY TOPICS???"
     })
     az.style_text("papers_title", 1, {
         "align": "center",
