@@ -1,0 +1,14 @@
+{
+  "name": "@rupertce/d3-bar-chart",
+  "main": "542bcce9ea0b40a3@195.js",
+  "version": "195.0.0",
+  "homepage": "https://observablehq.com/@rupertce/d3-bar-chart",
+  "author": {
+    "name": "Chris",
+    "url": "https://observablehq.com/@rupertce"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4"
+  }
+}
