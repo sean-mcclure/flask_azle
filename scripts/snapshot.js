@@ -7,7 +7,8 @@ function pop_snapshot() {
         "width": "auto",
         "height": "auto",
         "padding": "10px",
-        "background" : "rgb(48, 57, 82)"
+        "background" : "#ff5252",
+        "border" : "2px solid #f7f1e3"
     })
     az.add_text("snapshot_modal_content", 1, {
         "this_class": "snapshot_title",

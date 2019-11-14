@@ -11,7 +11,7 @@ This chart shows the relative frequency of letters in the English language. This
   const svg = d3.select(DOM.svg(width, height));
   
   svg.append("g")
-      .attr("fill", "rgb(120, 224, 143)")
+      .attr("fill", "white")
     .selectAll("rect").data(data).enter().append("rect")
       .attr("x", d => x(d.name))
       .attr("y", d => y(d.value))

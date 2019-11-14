@@ -1,5 +1,7 @@
 function fetch_paper(url, filename) {
 
+$('.show_paper').attr('src', 'papers/blank.pdf')
+
 params = {
     "url" : url,
     "filename" : filename
