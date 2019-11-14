@@ -155,9 +155,12 @@ az.style_layout("my_layout_cells", 2, {
     "rowspan": 3
 })
 az.call_once_satisfied({
-    "condition" : "typeof(az.components.add_upload_button) === 'function'",
+    "condition" : "typeof(az.components.add_upload_image_button) === 'function' && typeof(az.components.add_upload_pdf_button) === 'function'",
     "function" : function() {
-        az.components.add_upload_button("my_layout_cells", 1, {
+        az.components.add_upload_image_button("my_layout_cells", 1, {
+            "align_button" : "center",
+        })
+        az.components.add_upload_pdf_button("my_layout_cells", 4, {
             "align_button" : "center"
         })
     }
@@ -179,23 +182,6 @@ az.add_event("snapshot_icon", 1, {
     'type' : "click",
     "function" : function() {
         pop_snapshot()
-    }
-})
-
-az.add_button("my_layout_cells", 4, {
-    "this_class": "notes_button",
-    "text": "ADD NOTE"
-})
-az.style_button("notes_button", 1, {
-    "background": "#78e08f",
-    "color": "black",
-    "align": "center",
-    "outline": 0
-})
-az.add_event("notes_button", 1, {
-    "type" : "click",
-    "function" : function() {
-        pop_notes()
     }
 })
 
@@ -227,4 +213,5 @@ az.style_text("main_title_2", 1, {
     "font-size": "30px",
     "margin-bottom": "10px"
 })
+
 
