@@ -1,7 +1,9 @@
 az.load_font("Staatliches")
 az.style_body({
     "background": "#f7f1e3",
-    "font-family": "Staatliches"
+    "font-family": "Staatliches",
+    "min-width" : "900px",
+    "max-width" : "1400px"
 })
 az.add_sections({
     "this_class": "my_sections",
@@ -77,7 +79,8 @@ az.style_icon("paper_logo", 1, {
     "color": "white",
     "align": "center",
     "font-size": "34px",
-    "margin": "10px"
+    "margin": "10px",
+    "cursor" : "pointer"
 })
 az.add_event("paper_logo", 1, {
     "type": "click",
@@ -93,7 +96,8 @@ az.style_icon("settings_logo", 1, {
     "color": "white",
     "align": "right",
     "font-size": "34px",
-    "margin": "10px"
+    "margin": "10px",
+    "cursor" : "pointer"
 })
 az.add_event("settings_logo", 1, {
     "type": "click",

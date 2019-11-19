@@ -65,3 +65,39 @@ function doc2vec() {
         }
     })
 }
+
+function list_papers() {
+    params = {
+        "directory": "papers/"
+    }
+    az.call_api({
+        "url": "http://127.0.0.1:5000/list_papers/",
+        "parameters": params,
+        "done": function(data) {
+            az.hold_value.my_papers = data.my_papers
+        }
+    })
+}
+
+function save_material() {
+
+    all_notes = []
+    $.each($('.uploaded_image'), function(index, elem) {
+        var inner = {}
+        inner.notes = $('.hold_note').eq(index).text()
+        all_notes.push(inner)
+    })
+
+    $.each($('.uploaded_image'), function(index, elem) {
+    params = {
+        "data": $(this).attr('src'),
+        "filename" : "material/" + az.hold_value.paper_name.replace('pdf', '') + "_" + index + ".png"
+    }
+    az.call_api({
+        "url": "http://127.0.0.1:5000/save_material/",
+        "parameters": params,
+        "done": function() {}
+    })
+
+    })
+}

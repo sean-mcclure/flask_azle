@@ -14,7 +14,11 @@ az.components = {
         az.add_event("upload_img_icon", 1, {
             "type": "click",
             "function": function() {
+                 if(typeof(az.hold_value.paper_name) !== 'undefined') {
                 az.click_element("upload_img_native", 1)
+                } else {
+fancy_alert("Fetch a paper before uploading related material.")
+}
             }
         })
         az.add_upload_button(target_class, target_instance, {
@@ -40,9 +44,9 @@ az.components = {
                     "display": "inline",
                     "border": 0
                 })
-                 az.style_layout("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 2, {
-                     "padding-left" : "20px"
-                 })
+                az.style_layout("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 2, {
+                    "padding-left": "20px"
+                })
                 az.add_image("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 1, {
                     "this_class": "uploaded_image",
                     "image_data": data
@@ -50,10 +54,10 @@ az.components = {
                 az.all_style_image("uploaded_image", {
                     "width": "400px",
                     "border-radius": "6px",
-                    "margin-top": "20px",
                     "margin-left": "15px",
                     "margin-right": "15px",
-                    "cursor" : "pointer"
+                    "cursor": "pointer",
+                    "border": "2px solid #f7f1e3"
                 })
                 az.add_event("uploaded_image", az.last_class_instance("uploaded_image"), {
                     "type": "click",
@@ -62,6 +66,25 @@ az.components = {
                         az.hold_value.clicked_img_id = this_id
                     }
                 })
+                rem_id = 'rem_' + az.makeid()
+                az.add_html("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 1, {
+                    "html": "<div class='remove_pic' id='" + rem_id + "'>X</div>",
+                    "prepend": true
+                })
+                az.all_style_html("remove_pic", {
+                    "font-size": "22px",
+                    "color": "gold",
+                    "float": "left",
+                    "margin-left": "20px",
+                    "cursor": "pointer"
+                })
+                az.add_event("remove_pic", az.last_class_instance("remove_pic"), {
+                    "type": "click",
+                    "function": function(this_id) {
+                        az.components.confirm_delete(this_id)
+                    }
+                })
+                save_material()
             }
         })
     },
@@ -109,7 +132,7 @@ az.components = {
             "width": "auto",
             "height": "40px",
             "position": "absolute",
-            "align"  : "center",
+            "align": "center",
             "border": 0
         })
         az.call_every({
@@ -130,6 +153,64 @@ az.components = {
                     load_cnt = 0
                     az.all_remove_element('added_load')
                 }
+            }
+        })
+    },
+    "confirm_delete": function confirm_delete(id) {
+        az.add_modal({
+            "this_class": "confirm_modal",
+            "content_class": "confirm_modal_content"
+        })
+        az.style_modal("confirm_modal", 1, {
+            "width": "auto",
+            "height": "auto",
+            "padding": "20px",
+            "background": "#227093",
+            "border": "2px solid #f7f1e3"
+        })
+        az.add_layout("confirm_modal_content", 1, {
+            "this_class": "confirm_layout",
+            "row_class": "confirm_layout_rows",
+            "cell_class": "confirm_layout_cells",
+            "number_of_rows": 1,
+            "number_of_columns": 2
+        })
+        az.style_layout("confirm_layout", 1, {
+            "width": "auto",
+            "height": "auto",
+            "align": "center",
+            "border": 0
+        })
+        az.add_button("confirm_layout_cells", 1, {
+            "this_class": "delete_button",
+            "text": "DELETE"
+        })
+        az.add_button("confirm_layout_cells", 2, {
+            "this_class": "delete_button",
+            "text": "CANCEL"
+        })
+        az.style_button("delete_button", 1, {
+            "background": "#ff5252",
+            "outline": 0,
+            "margin": "5px"
+        })
+        az.style_button("delete_button", 2, {
+            "background": "lightgrey",
+            "outline": 0,
+            "margin": "5px",
+            "color" : "black"
+        })
+        az.add_event("delete_button", 1, {
+            "type" : "click",
+            "function" : function() {
+                az.remove_element("uploaded_img_layout", az.get_target_instance(id))
+                az.close_modal()
+            }
+        })
+        az.add_event("delete_button", 2, {
+            "type" : "click",
+            "function" : function() {
+                az.close_modal()
             }
         })
     }

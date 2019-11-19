@@ -14,7 +14,7 @@ function pop_settings() {
     })
     az.add_text("settings_modal_content", 1, {
         "this_class": "settings_title",
-        "text": "SETTINGS"
+        "text": "KEYWORDS"
     })
     az.style_text("settings_title", 1, {
         "align": "center",
@@ -24,7 +24,7 @@ function pop_settings() {
     })
     az.add_text("settings_modal_content", 1, {
         "this_class": "settings_title_sub",
-        "text": "Choose target keywords"
+        "text": "Choose target words"
     })
     az.style_text("settings_title_sub", 1, {
         "align": "center",

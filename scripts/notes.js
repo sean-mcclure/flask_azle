@@ -35,7 +35,7 @@ function pop_notes() {
         "align": "center",
         "resize": "none",
         "border-radius": "6px",
-        "background": "#feff9c"
+        "background": "#ffda79"
     })
     az.focus_element("notes_textarea", 1)
     setTimeout(function() {

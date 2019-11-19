@@ -1,6 +1,10 @@
+import os
 from flask import Flask, request, jsonify
 import requests
 import slate
+import base64
+from io import BytesIO
+from PIL import Image
 import re
 import json
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
@@ -70,6 +74,21 @@ def doc2vec():
 
     return(data)
 
+@app.route("/list_papers/", methods=["GET"])
+def list_papers():
+    data['my_papers'] = os.listdir(request.args.get('directory'))
+    return(data)
+
+@app.route("/save_material/", methods=["GET"])
+def save_material():
+    file = request.args.get('data')
+    starter = file.find(',')
+    image_data = file[starter + 1:]
+    image_data = bytes(image_data, encoding="ascii")
+    im = Image.open(BytesIO(base64.b64decode(image_data)))
+    im.save(request.args.get('filename'))
+    return('done')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
