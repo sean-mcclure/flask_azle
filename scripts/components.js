@@ -14,11 +14,11 @@ az.components = {
         az.add_event("upload_img_icon", 1, {
             "type": "click",
             "function": function() {
-                 if(typeof(az.hold_value.paper_name) !== 'undefined') {
-                az.click_element("upload_img_native", 1)
+                if (typeof(az.hold_value.paper_name) !== 'undefined') {
+                    az.click_element("upload_img_native", 1)
                 } else {
-fancy_alert("Fetch a paper before uploading related material.")
-}
+                    fancy_alert("Fetch a paper before uploading related material.")
+                }
             }
         })
         az.add_upload_button(target_class, target_instance, {
@@ -198,18 +198,18 @@ fancy_alert("Fetch a paper before uploading related material.")
             "background": "lightgrey",
             "outline": 0,
             "margin": "5px",
-            "color" : "black"
+            "color": "black"
         })
         az.add_event("delete_button", 1, {
-            "type" : "click",
-            "function" : function() {
+            "type": "click",
+            "function": function() {
                 az.remove_element("uploaded_img_layout", az.get_target_instance(id))
                 az.close_modal()
             }
         })
         az.add_event("delete_button", 2, {
-            "type" : "click",
-            "function" : function() {
+            "type": "click",
+            "function": function() {
                 az.close_modal()
             }
         })

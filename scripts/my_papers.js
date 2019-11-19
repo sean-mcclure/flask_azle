@@ -10,8 +10,8 @@ function pop_papers() {
             az.style_modal("papers_modal", 1, {
                 "width": "400px",
                 "height": "auto",
-                "max-height" : "400px",
-                "min-height" : "400px",
+                "max-height": "400px",
+                "min-height": "400px",
                 "padding": "10px",
                 "background": "#227093",
                 "max-height": "400px",
@@ -39,16 +39,16 @@ function pop_papers() {
                 "margin-bottom": "10px"
             })
             az.add_input("papers_modal_content", 1, {
-                "this_class" : "search_papers",
-                "placeholder" : "search..."
+                "this_class": "search_papers",
+                "placeholder": "search..."
             })
             az.style_input("search_papers", 1, {
-                "align" : "center",
+                "align": "center",
                 "margin-bottom": "10px",
-                "width" : "90%"
+                "width": "90%"
             })
             az.hide_and_seek("search_papers", 1, {
-                "show_class" : "my_paper_button"
+                "show_class": "my_paper_button"
             })
             az.call_multiple({
                 "iterations": az.hold_value.my_papers.length,
@@ -67,8 +67,8 @@ function pop_papers() {
                         "outline": 0
                     })
                     az.store_data("my_paper_button", index + 1, {
-                        "key" : "store_title",
-                        "value" : az.hold_value.my_papers[index]
+                        "key": "store_title",
+                        "value": az.hold_value.my_papers[index]
                     })
                 }
             })
@@ -87,7 +87,7 @@ function pop_papers() {
                 "type": "click",
                 "function": function(this_id) {
                     var this_paper = az.fetch_data("my_paper_button", az.get_target_instance(this_id), {
-                        "key" : "store_title"
+                        "key": "store_title"
                     })
                     $('.show_paper').attr('src', 'papers/' + this_paper)
                 }

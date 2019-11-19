@@ -68,8 +68,8 @@ function pop_notes() {
                 })
                 az.all_style_html("hold_note", {
                     "margin-bottom": "5px",
-                    "max-width" : "370px",
-                    "text-align" : "left"
+                    "max-width": "370px",
+                    "text-align": "left"
                 })
                 az.store_data("uploaded_image", az.get_target_instance(az.hold_value.clicked_img_id), {
                     "key": "store_img_notes",

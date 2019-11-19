@@ -5,7 +5,7 @@ function stop_load_display() {
 }
 
 function fancy_alert(msg) {
-     az.add_modal({
+    az.add_modal({
         "this_class": "alert_modal",
         "content_class": "alert_modal_content"
     })
@@ -30,10 +30,10 @@ function fancy_alert(msg) {
 
 function get_keyword_instances(keywords) {
     az.hold_value.kw_matches = []
-    search_terms =  az.hold_value.keep_target_keywords.split(',')
+    search_terms = az.hold_value.keep_target_keywords.split(',')
     search_terms.forEach(function(word) {
         count = az.get_from_array_if(keywords, "elem.includes('" + word + "')").length
-        if(count !== 0 && word !== '') {
+        if (count !== 0 && word !== '') {
             inner = {}
             inner['name'] = word.trim()
             inner['value'] = count

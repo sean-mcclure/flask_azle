@@ -2,8 +2,8 @@ az.load_font("Staatliches")
 az.style_body({
     "background": "#f7f1e3",
     "font-family": "Staatliches",
-    "min-width" : "900px",
-    "max-width" : "1400px"
+    "min-width": "900px",
+    "max-width": "1400px"
 })
 az.add_sections({
     "this_class": "my_sections",
@@ -80,7 +80,7 @@ az.style_icon("paper_logo", 1, {
     "align": "center",
     "font-size": "34px",
     "margin": "10px",
-    "cursor" : "pointer"
+    "cursor": "pointer"
 })
 az.add_event("paper_logo", 1, {
     "type": "click",
@@ -97,7 +97,7 @@ az.style_icon("settings_logo", 1, {
     "align": "right",
     "font-size": "34px",
     "margin": "10px",
-    "cursor" : "pointer"
+    "cursor": "pointer"
 })
 az.add_event("settings_logo", 1, {
     "type": "click",
@@ -137,7 +137,7 @@ az.add_event("paper_name", 1, {
     "function": function() {
         az.click_element("fetch_button", 1)
     }
-    })
+})
 az.focus_element("fetch_input", 1)
 az.add_button("input_layout_cells", 3, {
     "this_class": "fetch_button",
@@ -155,22 +155,22 @@ az.all_style_button("fetch_button", {
     "outline": 0
 })
 az.style_button("fetch_button", 2, {
-    "background" : "#ff5252",
-    "color" : "white"
+    "background": "#ff5252",
+    "color": "white"
 })
 az.add_event("fetch_button", 1, {
     'type': "click",
     "function": function() {
         if (az.grab_value('fetch_input', 1) !== '' && az.grab_value('paper_name', 1) !== '') {
-            if(az.grab_value('fetch_input', 1).includes('pdf')) {
-            az.animate_element("fetch_button", 1, {
-                "type": "spin"
-            })
-            fetch_paper(az.grab_value("fetch_input", 1), az.grab_value("paper_name", 1).split(' ').join('_') + '.pdf')
-            az.clear_input("fetch_input", 1)
-            az.clear_input("paper_name", 1)
+            if (az.grab_value('fetch_input', 1).includes('pdf')) {
+                az.animate_element("fetch_button", 1, {
+                    "type": "spin"
+                })
+                fetch_paper(az.grab_value("fetch_input", 1), az.grab_value("paper_name", 1).split(' ').join('_') + '.pdf')
+                az.clear_input("fetch_input", 1)
+                az.clear_input("paper_name", 1)
             } else {
-            fancy_alert("Must have .pdf extension")
+                fancy_alert("Must have .pdf extension")
             }
         } else {
             if (az.grab_value('fetch_input', 1) === '') {
@@ -186,11 +186,10 @@ az.add_event("fetch_button", 1, {
     }
 })
 az.add_event("fetch_button", 2, {
-     "type" : "click",
-     "function": function() {
-
-         parse_pdf(az.hold_value.paper_name)
-     }
+    "type": "click",
+    "function": function() {
+        parse_pdf(az.hold_value.paper_name)
+    }
 })
 az.add_layout("my_sections", 1, {
     "this_class": "my_layout",
@@ -286,14 +285,14 @@ az.add_event("my_layout_cells", 1, {
         pop_snapshot()
     }
 })
-clk_cnt=0
+clk_cnt = 0
 az.add_event("my_layout_cells", 3, {
     "type": "click",
     "function": function() {
         clk_cnt++
-        if(clk_cnt === 1) {
-        az.click_element("upload_img_icon", 1)
-        clk_cnt = 0
+        if (clk_cnt === 1) {
+            az.click_element("upload_img_icon", 1)
+            clk_cnt = 0
         }
     }
 })
@@ -301,6 +300,7 @@ az.add_event("my_layout_cells", 4, {
     "type": "click",
     "function": function() {}
 })
-
 // on load
-az.hold_value.keep_target_keywords = az.fetch_data("browser", 1, {"key": "store_added_keywords"})
+az.hold_value.keep_target_keywords = az.fetch_data("browser", 1, {
+    "key": "store_added_keywords"
+})
