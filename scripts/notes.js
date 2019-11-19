@@ -7,8 +7,8 @@ function pop_notes() {
         "width": "auto",
         "height": "auto",
         "padding": "20px",
-        "background" : "rgb(48, 57, 82)",
-        "border" : "2px solid rgb(251, 91, 91)"
+        "background" : "#227093",
+        "border" : "2px solid #f7f1e3"
     })
     az.add_text("notes_modal_content", 1, {
         "this_class": "notes_title",
@@ -19,17 +19,6 @@ function pop_notes() {
         "font-size": "22px",
         "font-family": "Staatliches",
         "color" : "white"
-    })
-    az.add_text("notes_modal_content", 1, {
-        "this_class": "notes_title_sub",
-        "text": "Notes will appear..."
-    })
-    az.style_text("notes_title_sub", 1, {
-        "align": "center",
-        "font-size": "18px",
-        "font-family": "Staatliches",
-        "margin-bottom": "20px",
-        "color": "lightgrey"
     })
     az.add_textarea("notes_modal_content", 1, {
     "this_class": "notes_textarea",

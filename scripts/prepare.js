@@ -1,6 +1,6 @@
 az.load_font("Staatliches")
 az.style_body({
-    "background": "rgb(222, 221, 234)",
+    "background": "#f7f1e3",
     "font-family": "Staatliches"
 })
 az.add_sections({
@@ -8,7 +8,7 @@ az.add_sections({
     "sections": 3
 })
 az.all_style_sections("my_sections", {
-    "background": "#303952",
+    "background": "#227093",
     "height": "auto",
     "border-radius": "8px"
 })
@@ -137,7 +137,7 @@ az.add_button("input_layout_cells", 3, {
     "display": "inline"
 })
 az.style_button("fetch_button", 1, {
-    "background": "#78e08f",
+    "background": "rgb(51, 217, 178)",
     "color": "black",
     "align": "center",
     "margin-left" : "5px",

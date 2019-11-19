@@ -7,8 +7,9 @@ function pop_papers() {
         "width": "400px",
         "height": "auto",
         "padding": "10px",
-        "background" : "rgb(48, 57, 82)",
-        "max-height" : "400px"
+        "background" : "#227093",
+        "max-height" : "400px",
+        "border" : "2px solid #f7f1e3"
     })
     az.add_text("papers_modal_content", 1, {
         "this_class": "papers_title",

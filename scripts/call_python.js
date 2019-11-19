@@ -37,6 +37,9 @@ az.call_api({
                      keywords.push(word.replace(/\n/ig, ' '))
               })
         })
+        setTimeout(function() {
+            get_keyword_instances(keywords)
+        }, 2000)
 }
 })
 
@@ -58,11 +61,17 @@ az.call_api({
 
 }
 
-function get_keyword_instances() {
+function get_keyword_instances(keywords) {
+    az.hold_value.kw_matches = []
     search_terms =  az.hold_value.keep_target_keywords.split(',')
     search_terms.forEach(function(word) {
         count = az.get_from_array_if(keywords, "elem.includes('" + word + "')").length
-        alert(word + ': ' + count)
+        if(count !== 0) {
+            inner = {}
+            inner['name'] = word.trim()
+            inner['value'] = count
+            az.hold_value.kw_matches.push(inner)
+        }
     })
 }
 

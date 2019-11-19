@@ -8,7 +8,8 @@ function pop_settings() {
         "width": "400px",
         "height": "auto",
         "padding": "10px",
-        "background" : "rgb(48, 57, 82)"
+        "background" : "#227093",
+        "border" : "2px solid #f7f1e3"
     })
     az.add_text("settings_modal_content", 1, {
         "this_class": "settings_title",
@@ -38,8 +39,26 @@ function pop_settings() {
     az.style_textarea("target_keywords", 1, {
         "width" : "90%",
         "resize" : "none",
-        "align" : "center"
+        "align" : "center",
+        "outline" : 0
     })
+    az.add_event("target_keywords", 1, {
+        "type" : "as_change",
+        "function" : function() {
+            var added_keywords = az.grab_value("target_keywords", 1)
+            az.store_data("browser", 1, {
+                "key" : "store_added_keywords",
+                "value" : added_keywords
+            })
+        }
+    })
+setTimeout(function() {
+        az.add_value("target_keywords", 1, {
+            "value" : az.fetch_data("browser", 1, {"key" : "store_added_keywords"})
+        })
+    }, 400)
+
+
     if(az.hold_value.keep_target_keywords.split(',').length > 0) {
         az.add_value("target_keywords", 1, {
             "value" : az.hold_value.keep_target_keywords

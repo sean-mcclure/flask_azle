@@ -50,7 +50,8 @@ az.components = {
                     "border-radius": "6px",
                     "margin-top": "20px",
                     "margin-left": "15px",
-                    "margin-right": "15px"
+                    "margin-right": "15px",
+                    "cursor" : "pointer"
                 })
                 az.add_event("uploaded_image", az.last_class_instance("uploaded_image"), {
                     "type": "click",

@@ -7,8 +7,8 @@ function pop_snapshot() {
         "width": "auto",
         "height": "auto",
         "padding": "10px",
-        "background" : "#ff5252",
-        "border" : "2px solid #f7f1e3"
+        "background": "#227093",
+        "border": "2px solid #f7f1e3"
     })
     az.add_text("snapshot_modal_content", 1, {
         "this_class": "snapshot_title",
@@ -18,11 +18,11 @@ function pop_snapshot() {
         "align": "center",
         "font-size": "22px",
         "font-family": "Staatliches",
-        "color" : "white"
+        "color": "white"
     })
     az.add_text("snapshot_modal_content", 1, {
         "this_class": "snapshot_title_sub",
-        "text": "Top Words Found in Article"
+        "text": "Your Keywords Found in Article"
     })
     az.style_text("snapshot_title_sub", 1, {
         "align": "center",
@@ -32,11 +32,20 @@ function pop_snapshot() {
         "color": "lightgrey"
     })
     az.add_iframe("snapshot_modal_content", 1, {
-        "this_class" : "barchart_frame",
-        "source" : "visuals/d3-bar-chart/index.html"
+        "this_class": "barchart_frame",
+        "source": "visuals/d3-bar-chart/index.html"
     })
     az.style_iframe("barchart_frame", 1, {
-        "width" : "700px",
-        "height" : "300px"
+        "width": "700px",
+        "height": "300px"
+    })
+    az.call_once_iframe_loaded("barchart_frame", 1, {
+        "function": function() {
+            az.post_message_to_frame('barchart_frame', 1, {
+                "function": function() {
+                    main.redefine("data", parent.fetch_keywords_counts())
+                }
+            })
+        }
     })
 }
