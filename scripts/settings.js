@@ -1,4 +1,5 @@
 az.hold_value.keep_target_keywords = ""
+
 function pop_settings() {
     az.add_modal({
         "this_class": "settings_modal",
@@ -8,8 +9,8 @@ function pop_settings() {
         "width": "400px",
         "height": "auto",
         "padding": "10px",
-        "background" : "#227093",
-        "border" : "2px solid #f7f1e3"
+        "background": "#227093",
+        "border": "2px solid #f7f1e3"
     })
     az.add_text("settings_modal_content", 1, {
         "this_class": "settings_title",
@@ -19,7 +20,7 @@ function pop_settings() {
         "align": "center",
         "font-size": "22px",
         "font-family": "Staatliches",
-        "color" : "white"
+        "color": "white"
     })
     az.add_text("settings_modal_content", 1, {
         "this_class": "settings_title_sub",
@@ -33,41 +34,44 @@ function pop_settings() {
         "color": "lightgrey"
     })
     az.add_textarea("settings_modal_content", 1, {
-        "this_class" : "target_keywords",
-        "placeholder" : "comma separated words..."
+        "this_class": "target_keywords",
+        "placeholder": "comma separated words..."
     })
     az.style_textarea("target_keywords", 1, {
-        "width" : "90%",
-        "resize" : "none",
-        "align" : "center",
-        "outline" : 0
+        "width": "90%",
+        "resize": "none",
+        "align": "center",
+        "outline": 0
     })
     az.add_event("target_keywords", 1, {
-        "type" : "as_change",
-        "function" : function() {
+        "type": "as_change",
+        "function": function() {
             var added_keywords = az.grab_value("target_keywords", 1)
             az.store_data("browser", 1, {
-                "key" : "store_added_keywords",
-                "value" : added_keywords
+                "key": "store_added_keywords",
+                "value": added_keywords
             })
         }
     })
-setTimeout(function() {
+    setTimeout(function() {
         az.add_value("target_keywords", 1, {
-            "value" : az.fetch_data("browser", 1, {"key" : "store_added_keywords"})
+            "value": az.fetch_data("browser", 1, {
+                "key": "store_added_keywords"
+            })
+        })
+        az.trigger_event("target_keywords", 1, {
+            "event": "change"
         })
     }, 400)
-
-
-    if(az.hold_value.keep_target_keywords.split(',').length > 0) {
+    if (az.hold_value.keep_target_keywords.split(',').length > 0) {
         az.add_value("target_keywords", 1, {
-            "value" : az.hold_value.keep_target_keywords
+            "value": az.hold_value.keep_target_keywords
         })
     }
     az.add_event("target_keywords", 1, {
-        "type" : "as_change",
-        "function" : function() {
-             az.hold_value.keep_target_keywords = az.grab_value("target_keywords", 1)
+        "type": "as_change",
+        "function": function() {
+            az.hold_value.keep_target_keywords = az.grab_value("target_keywords", 1)
         }
     })
 }

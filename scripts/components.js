@@ -9,7 +9,6 @@ az.components = {
         az.style_icon("upload_img_icon", 1, {
             "color": "white",
             "font-size": "60px",
-            "cursor": "pointer",
             "align": options.align_button
         })
         az.add_event("upload_img_icon", 1, {
@@ -41,6 +40,9 @@ az.components = {
                     "display": "inline",
                     "border": 0
                 })
+                 az.style_layout("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 2, {
+                     "padding-left" : "20px"
+                 })
                 az.add_image("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 1, {
                     "this_class": "uploaded_image",
                     "image_data": data

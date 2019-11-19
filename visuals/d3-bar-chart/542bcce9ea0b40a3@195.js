@@ -47,12 +47,14 @@ d3.scaleLinear()
   main.variable(observer("xAxis")).define("xAxis", ["height","margin","d3","x"], function(height,margin,d3,x){return(
 g => g
     .attr("transform", `translate(0,${height - margin.bottom})`)
+    .style("font-size", "16px")
     .call(d3.axisBottom(x)
         .tickSizeOuter(0))
 )});
   main.variable(observer("yAxis")).define("yAxis", ["margin","d3","y"], function(margin,d3,y){return(
 g => g
     .attr("transform", `translate(${margin.left},0)`)
+    .style("font-size", "16px")
     .call(d3.axisLeft(y))
     .call(g => g.select(".domain").remove())
 )});

@@ -25,7 +25,7 @@ az.add_layout("my_sections", 1, {
 az.style_layout("banner_layout", 1, {
     "width": "100%",
     "height": "auto",
-    "margin-bottom" : "20px",
+    "margin-bottom": "20px",
     "border": 0
 })
 az.add_input("banner_layout_cells", 1, {
@@ -34,9 +34,9 @@ az.add_input("banner_layout_cells", 1, {
 })
 az.all_style_input("search_material", {
     "align": "left",
-    "height" : "25px",
+    "height": "25px",
     "width": "200px",
-    "background" : "#f7f1e3"
+    "background": "#f7f1e3"
 })
 az.add_text("banner_layout_cells", 2, {
     "this_class": "main_title",
@@ -49,12 +49,12 @@ az.style_text("main_title", 1, {
     "margin-bottom": "10px"
 })
 az.add_html("banner_layout_cells", 3, {
-    "html" : "<div class='hold_loader'></div>"
+    "html": "<div class='hold_loader'></div>"
 })
 az.style_html("hold_loader", 1, {
-    "height" : "60px",
-    "position" : "absolute",
-    "margin-top" : "8px"
+    "height": "60px",
+    "position": "absolute",
+    "margin-top": "8px"
 })
 az.add_layout("banner_layout_cells", 3, {
     "this_class": "icon_layout",
@@ -77,8 +77,7 @@ az.style_icon("paper_logo", 1, {
     "color": "white",
     "align": "center",
     "font-size": "34px",
-    "margin": "10px",
-    "cursor": "pointer"
+    "margin": "10px"
 })
 az.add_event("paper_logo", 1, {
     "type": "click",
@@ -94,8 +93,7 @@ az.style_icon("settings_logo", 1, {
     "color": "white",
     "align": "right",
     "font-size": "34px",
-    "margin": "10px",
-    "cursor": "pointer"
+    "margin": "10px"
 })
 az.add_event("settings_logo", 1, {
     "type": "click",
@@ -108,7 +106,7 @@ az.add_layout("my_sections", 1, {
     "row_class": "input_layout_rows",
     "cell_class": "input_layout_cells",
     "number_of_rows": 1,
-    "number_of_columns": 3
+    "number_of_columns": 4
 })
 az.style_layout("input_layout", 1, {
     "width": "auto",
@@ -128,36 +126,48 @@ az.add_input("input_layout_cells", 2, {
 az.all_style_input("fetch_input", {
     "align": "center",
     "width": "400px",
-    "margin" : "5px"
+    "margin": "5px"
 })
+az.add_event("paper_name", 1, {
+    'type': "enter_key",
+    "function": function() {
+        az.click_element("fetch_button", 1)
+    }
+    })
 az.focus_element("fetch_input", 1)
 az.add_button("input_layout_cells", 3, {
     "this_class": "fetch_button",
-    "text": "FETCH",
-    "display": "inline"
+    "text": "FETCH"
 })
-az.style_button("fetch_button", 1, {
+az.add_button("input_layout_cells", 4, {
+    "this_class": "fetch_button",
+    "text": "PARSE"
+})
+az.all_style_button("fetch_button", {
     "background": "rgb(51, 217, 178)",
     "color": "black",
     "align": "center",
-    "margin-left" : "5px",
+    "margin-left": "5px",
     "outline": 0
+})
+az.style_button("fetch_button", 2, {
+    "background" : "#ff5252",
+    "color" : "white"
 })
 az.add_event("fetch_button", 1, {
     'type': "click",
     "function": function() {
         if (az.grab_value('fetch_input', 1) !== '' && az.grab_value('paper_name', 1) !== '') {
+            if(az.grab_value('fetch_input', 1).includes('pdf')) {
             az.animate_element("fetch_button", 1, {
                 "type": "spin"
             })
             fetch_paper(az.grab_value("fetch_input", 1), az.grab_value("paper_name", 1).split(' ').join('_') + '.pdf')
-            az.components.loading_display("hold_loader", 1, {})
-            az.call_once_satisfied({
-                "condition" : "!az.get_property('show_paper', 1, {'property' : 'src'}).includes('blank.pdf')",
-                "function" : function() {
-                    stop_load_display()
-                }
-            })
+            az.clear_input("fetch_input", 1)
+            az.clear_input("paper_name", 1)
+            } else {
+            fancy_alert("Must have .pdf extension")
+            }
         } else {
             if (az.grab_value('fetch_input', 1) === '') {
                 az.animate_element("fetch_input", 1, {
@@ -171,6 +181,13 @@ az.add_event("fetch_button", 1, {
         }
     }
 })
+az.add_event("fetch_button", 2, {
+     "type" : "click",
+     "function": function() {
+
+         parse_pdf(az.hold_value.paper_name)
+     }
+})
 az.add_layout("my_sections", 1, {
     "this_class": "my_layout",
     "row_class": "my_layout_rows",
@@ -181,20 +198,22 @@ az.add_layout("my_sections", 1, {
 az.style_layout("my_layout", 1, {
     "column_widths": ['20%', '80%'],
     "height": "400px",
-    "border" : 0
+    "border": 0
 })
 az.style_layout("my_layout_cells", 2, {
     "rowspan": 3
 })
 az.style_layout("my_layout_cells", 1, {
-     "background" : "#fb5b5b"
+    "background": "#fb5b5b",
+    "cursor": "pointer"
 })
-
 az.style_layout("my_layout_cells", 3, {
-     "background" : "#33d9b2"
+    "background": "#33d9b2",
+    "cursor": "pointer"
 })
 az.style_layout("my_layout_cells", 4, {
-     "background" : "#ffda79"
+    "background": "#ffda79",
+    "cursor": "pointer"
 })
 az.add_icon("my_layout_cells", 1, {
     "this_class": "snapshot_icon",
@@ -203,14 +222,7 @@ az.add_icon("my_layout_cells", 1, {
 az.style_icon("snapshot_icon", 1, {
     "color": "white",
     "align": "center",
-    "font-size": "60px",
-    "cursor": "pointer"
-})
-az.add_event("snapshot_icon", 1, {
-    'type': "click",
-    "function": function() {
-        pop_snapshot()
-    }
+    "font-size": "60px"
 })
 az.call_once_satisfied({
     "condition": "typeof(az.components.add_upload_image_button) === 'function' && typeof(az.components.add_upload_pdf_button) === 'function'",
@@ -226,8 +238,8 @@ az.add_icon("my_layout_cells", 4, {
 })
 az.style_icon("closest_papers_icon", 1, {
     "color": "darkslategrey",
-    "font-size" : "60px",
-    "cursor" : "pointer",
+    "font-size": "60px",
+    "cursor": "pointer",
     "align": "center"
 })
 az.style_button("fetch_button", 1, {
@@ -264,6 +276,27 @@ az.style_text("main_title_3", 1, {
     "font-size": "30px",
     "margin-bottom": "10px"
 })
+az.add_event("my_layout_cells", 1, {
+    "type": "click",
+    "function": function() {
+        pop_snapshot()
+    }
+})
+clk_cnt=0
+az.add_event("my_layout_cells", 3, {
+    "type": "click",
+    "function": function() {
+        clk_cnt++
+        if(clk_cnt === 1) {
+        az.click_element("upload_img_icon", 1)
+        clk_cnt = 0
+        }
+    }
+})
+az.add_event("my_layout_cells", 4, {
+    "type": "click",
+    "function": function() {}
+})
 
-
-
+// on load
+az.hold_value.keep_target_keywords = az.fetch_data("browser", 1, {"key": "store_added_keywords"})
