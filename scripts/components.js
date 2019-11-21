@@ -37,38 +37,6 @@ az.components = {
             }
         })
     },
-    "add_upload_pdf_button": function add_upload_pdf_button(target_class, target_instance, options) {
-        az.add_button(target_class, target_instance, {
-            "this_class": "upload_pdf_button",
-            "text": "UPLOAD PDF"
-        })
-        az.style_button("upload_pdf_button", 1, {
-            "background": "#78e08f",
-            "color": "black",
-            "border": "1px solid black",
-            "margin-top": "80px",
-            "align": options.align_button,
-            "outline": 0
-        })
-        az.add_event("upload_pdf_button", 1, {
-            "type": "click",
-            "function": function() {
-                az.click_element("upload_pdf_native", 1)
-            }
-        })
-        az.add_upload_button(target_class, target_instance, {
-            "this_class": "upload_pdf_native"
-        })
-        az.style_upload_button("upload_pdf_native", 1, {
-            "display": "none"
-        })
-        az.add_event("upload_pdf_native", 1, {
-            "type": "upload",
-            "function": function(data) {
-                az.hold_value.bobo = data
-            }
-        })
-    },
     "loading_display": function loading_display(target_class, target_instance, options) {
         az.add_layout(target_class, target_instance, {
             "this_class": "loading_layout",
@@ -105,7 +73,7 @@ az.components = {
             }
         })
     },
-    "confirm_delete": function confirm_delete(id) {
+    "confirm_delete": function confirm_delete(id, x_num) {
         az.add_modal({
             "this_class": "confirm_modal",
             "content_class": "confirm_modal_content"
@@ -153,6 +121,12 @@ az.components = {
             "type": "click",
             "function": function() {
                 az.remove_element("uploaded_img_layout", az.get_target_instance(id))
+                var rem_index = x_num - 1
+                remove_file("images/" + az.hold_value.paper_name.replace('.pdf', '') + "_" + rem_index + ".png")
+                az.hold_value.material[az.hold_value.paper_name].image_paths = az.remove_from_array(az.hold_value.material[az.hold_value.paper_name].image_paths, 'images/' + az.hold_value.paper_name.replace('.pdf', '') + '_' + rem_index + '.png')
+                //alert(az.hold_value.material[az.hold_value.paper_name].image_paths)
+                //alert('images/' + az.hold_value.paper_name.replace('.pdf', '') + '_' + rem_index + '.png')
+                save_material(az.hold_value.material)
                 az.close_modal()
             }
         })
@@ -175,6 +149,7 @@ az.components = {
                     "height": "auto",
                     "width": "auto",
                     "display": "inline",
+                    "margin-top" : "30px",
                     "border": 0
                 })
                 az.style_layout("uploaded_img_layout_cells", (cnt * 2) + 2, {
@@ -190,6 +165,7 @@ az.components = {
                     "this_class": "uploaded_image",
                     "image_path": data
                 })
+
                 }
                 az.all_style_image("uploaded_image", {
                     "width": "400px",
@@ -206,7 +182,7 @@ az.components = {
                         az.hold_value.clicked_img_id = this_id
                     }
                 })
-                rem_id = 'rem_' + az.makeid()
+                var rem_id = 'rem_' + az.makeid()
                 az.add_html("uploaded_img_layout_cells", (cnt * 2) + 1, {
                     "html": "<div class='remove_pic' id='" + rem_id + "'>X</div>",
                     "prepend": true
@@ -221,7 +197,7 @@ az.components = {
                 az.add_event("remove_pic", az.last_class_instance("remove_pic"), {
                     "type": "click",
                     "function": function(this_id) {
-                        az.components.confirm_delete(this_id)
+                        az.components.confirm_delete(this_id, az.get_target_instance(this_id))
                     }
                 })
     }

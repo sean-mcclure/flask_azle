@@ -1,3 +1,4 @@
 *.pdf
 !blank.pdf
-material/
+images/
+papers/

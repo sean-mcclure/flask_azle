@@ -228,7 +228,7 @@ az.style_icon("snapshot_icon", 1, {
     "font-size": "60px"
 })
 az.call_once_satisfied({
-    "condition": "typeof(az.components.add_upload_image_button) === 'function' && typeof(az.components.add_upload_pdf_button) === 'function'",
+    "condition": "typeof(az.components.add_upload_image_button) === 'function' && typeof(az.components.add_upload_image_button) === 'function'",
     "function": function() {
         az.components.add_upload_image_button("my_layout_cells", 3, {
             "align_button": "center",

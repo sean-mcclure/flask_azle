@@ -12,7 +12,12 @@ function fetch_paper(url, filename) {
         "done": function(data) {
             $('.show_paper').attr('src', 'papers/' + filename)
             az.hold_value.paper_name = filename
+            inner = {}
+            inner.image_paths = [""]
+            inner.notes = [""]
+            az.hold_value.material[az.hold_value.paper_name] = inner
             stop_load_display()
+            list_papers()
         }
     })
 }
@@ -110,28 +115,38 @@ function save_images() {
             "done": function() {}
         })
     })
-    save_material()
+    save_material(az.hold_value.material)
 }
 
-function save_material() {
+function save_material(mat_obj) {
     these_images = []
     these_notes = []
     az.call_multiple({
-        "iterations": az.number_of_elements("uploaded_image"),
+        "iterations": mat_obj[az.hold_value.paper_name].length,
         "function": function(elem, index) {
-            these_images.push("images/" + az.hold_value.paper_name.replace('.pdf', '') + "_" + index + ".png")
-            these_notes.push($('.hold_note').eq(index).text())
+            these_images.push(mat_obj[az.hold_value.paper_name].image_paths[index])
+            these_notes.push(mat_obj[az.hold_value.paper_name].notes[index])
         }
     })
     inner = {}
     inner.image_paths = these_images
     inner.notes = these_notes
-    az.hold_value.material[az.hold_value.paper_name] = inner
+    mat_obj[az.hold_value.paper_name] = inner
     params = {
-        "material": JSON.stringify(az.hold_value.material)
+        "material": JSON.stringify(mat_obj)
     }
     az.call_api({
         "url": "http://127.0.0.1:5000/save_material/",
+        "parameters": params
+    })
+}
+
+function remove_file(file) {
+params = {
+        "file": file
+    }
+    az.call_api({
+        "url": "http://127.0.0.1:5000/remove_file/",
         "parameters": params
     })
 }

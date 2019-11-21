@@ -90,6 +90,11 @@ def save_material():
     text_file.close()
     return ('done')
 
+@app.route("/remove_file/", methods=["GET"])
+def remove_file():
+    os.remove(request.args.get('file'))
+    return('done')
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
 

@@ -1,8 +1,6 @@
 function pop_papers() {
     list_papers()
-    az.call_once_satisfied({
-        "condition": "typeof(az.hold_value.my_papers) !== 'undefined'",
-        "function": function() {
+    if(Object.keys(az.hold_value.material).length > 0) {
             az.add_modal({
                 "this_class": "papers_modal",
                 "content_class": "papers_modal_content"
@@ -51,28 +49,48 @@ function pop_papers() {
             az.hide_and_seek("search_papers", 1, {
                 "show_class": "my_paper_button"
             })
+            for_looping = az.hold_value.material
             az.call_multiple({
-                "iterations": az.hold_value.my_papers.length,
+                "iterations": for_looping.length,
                 "function": function(elem, index) {
-                    if(az.hold_value.my_papers[index] !== 'blank.pdf') {
-                    az.add_button("papers_modal_content", 1, {
-                        "this_class": "my_paper_button",
-                        "text": az.hold_value.my_papers[index].replace('.pdf', '')
-                    })
-                    az.all_style_button("my_paper_button", {
-                        "width": "90%",
-                        "background": "gold",
-                        "border": "1px solid black",
-                        "margin": "5px",
-                        "color": "black",
-                        "align": "center",
-                        "outline": 0
-                    })
-                    az.store_data("my_paper_button", index + 1, {
-                        "key": "store_title",
-                        "value": az.hold_value.my_papers[index]
-                    })
-                    }
+                        az.add_button("papers_modal_content", 1, {
+                            "this_class": "my_paper_button",
+                            "text": Object.keys(for_looping)[index].replace('.pdf', '')
+                        })
+                        az.all_style_button("my_paper_button", {
+                            "width": "90%",
+                            "background": "gold",
+                            "border": "1px solid black",
+                            "margin": "5px",
+                            "color": "black",
+                            "align": "center",
+                            "outline": 0
+                        })
+                        az.store_data("my_paper_button", index + 1, {
+                            "key": "store_title",
+                            "value": Object.keys(for_looping)[index]
+                        })
+                        var rem_id = 'rem_' + az.makeid()
+                        az.add_html("my_paper_button", index + 1, {
+                            "html": "<div class='remove_paper' id='" + rem_id + "'>X</div>"
+                        })
+                        az.all_style_html("remove_paper", {
+                            "font-size": "20px",
+                            "color": "red",
+                            "float": "left",
+                            "cursor": "pointer"
+                        })
+                        az.add_event("remove_paper", index + 1, {
+                            "type": "click",
+                            "function": function(this_id) {
+                                var rem_paper = az.fetch_data("my_paper_button", az.get_target_instance(this_id), {
+                                    "key": "store_title"
+                                })
+                                remove_file("papers/" + rem_paper)
+                                az.remove_element("my_paper_button", az.get_target_instance(this_id))
+                                az.hold_value.my_papers = az.remove_from_array(az.hold_value.my_papers, rem_paper)
+                            }
+                        })
                 }
             })
             az.all_add_event("my_paper_button", {
@@ -92,28 +110,44 @@ function pop_papers() {
                     var this_paper = az.fetch_data("my_paper_button", az.get_target_instance(this_id), {
                         "key": "store_title"
                     })
+                    az.hold_value.paper_name = this_paper
                     $('.show_paper').attr('src', 'papers/' + this_paper)
                     az.empty_contents("my_sections", 2)
+                    az.add_text("my_sections", 2, {
+                        "this_class": "main_title_2",
+                        "text": "GATHERED MATERIAL"
+                    })
+                    az.style_text("main_title_2", 1, {
+                        "color": "white",
+                        "align": "center",
+                        "font-size": "30px",
+                        "margin-bottom": "10px"
+                    })
                     az.call_multiple({
-                        "iterations" : Object.keys(az.hold_value.material).length,
-                        "function" : function(elem, index) {
-                           if(Object.keys(az.hold_value.material)[index] == this_paper) {
-                               Object.values(az.hold_value.material)[index].image_paths.forEach(function(path, index_b) {
-                                az.components.add_uploaded_image(index_b, path)
-                                az.add_html("uploaded_img_layout_cells", (index_b*2) + 2, {
-                                    "html": "<div class='hold_note' style='color: white'>" + Object.values(az.hold_value.material)[index].notes[index_b] + "</div>"
+                        "iterations": Object.keys(az.hold_value.material).length,
+                        "function": function(elem, index) {
+                            if (Object.keys(az.hold_value.material)[index] == this_paper) {
+                                Object.values(az.hold_value.material)[index].image_paths.forEach(function(path, index_b) {
+                                    az.components.add_uploaded_image(index_b, path)
+                                    az.add_html("uploaded_img_layout_cells", (index_b * 2) + 2, {
+                                        "html": "<div class='hold_note' style='color: white'>" + Object.values(az.hold_value.material)[index].notes[index_b] + "</div>"
+                                    })
+                                    az.all_style_html("hold_note", {
+                                        "margin-bottom": "5px",
+                                        "max-width": "370px",
+                                        "text-align": "left"
+                                    })
+                                    az.store_data("uploaded_image", index_b + 1, {
+                                        "key": "store_img_notes",
+                                        "value": Object.values(az.hold_value.material)[index].notes[index_b]
+                                    })
                                 })
-                                az.all_style_html("hold_note", {
-                                    "margin-bottom": "5px",
-                                    "max-width": "370px",
-                                    "text-align": "left"
-                                })
-                            })
-                           }
+                            }
                         }
                     })
                 }
             })
-        }
-    })
-}
+    } else {
+    alert('no papers')
+    }
+    }
