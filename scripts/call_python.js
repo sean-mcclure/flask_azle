@@ -1,5 +1,6 @@
 function fetch_paper(url, filename) {
     az.components.loading_display("hold_loader", 1, {})
+    az.empty_contents("my_sections", 2)
     $('.show_paper').attr('src', 'papers/blank.pdf')
     params = {
         "url": url,
@@ -71,30 +72,66 @@ function list_papers() {
         "directory": "papers/"
     }
     az.call_api({
-        "url": "http://127.0.0.1:5000/list_papers/",
+        "url": "http://127.0.0.1:5000/list_files/",
         "parameters": params,
         "done": function(data) {
-            az.hold_value.my_papers = data.my_papers
+            az.hold_value.my_papers = data.list_files
         }
     })
 }
 
-function save_material() {
-    all_notes = []
-    $.each($('.uploaded_image'), function(index, elem) {
-        var inner = {}
-        inner.notes = $('.hold_note').eq(index).text()
-        all_notes.push(inner)
+function list_images(paper) {
+    params = {
+        "directory": "images/"
+    }
+    az.call_api({
+        "url": "http://127.0.0.1:5000/list_files/",
+        "parameters": params,
+        "done": function(data) {
+            res = az.get_from_array_if(data.list_files, "elem.includes('" + paper.replace('.pdf', '') + "')")
+            az.hold_value.my_images = res.sort(function(x, y) {
+                res_x = x.replace(/^\D+/g, '');
+                res_y = y.replace(/^\D+/g, '');
+                return res_x == res_y ? 0 : res_x < res_y ? -1 : 1;
+            })
+        }
     })
+}
+
+function save_images() {
     $.each($('.uploaded_image'), function(index, elem) {
         params = {
             "data": $(this).attr('src'),
-            "filename": "material/" + az.hold_value.paper_name.replace('pdf', '') + "_" + index + ".png"
+            "filename": "images/" + az.hold_value.paper_name.replace('.pdf', '').split(' ').join('_') + "_" + index + ".png"
         }
         az.call_api({
-            "url": "http://127.0.0.1:5000/save_material/",
+            "url": "http://127.0.0.1:5000/save_images/",
             "parameters": params,
             "done": function() {}
         })
+    })
+    save_material()
+}
+
+function save_material() {
+    these_images = []
+    these_notes = []
+    az.call_multiple({
+        "iterations": az.number_of_elements("uploaded_image"),
+        "function": function(elem, index) {
+            these_images.push("images/" + az.hold_value.paper_name.replace('.pdf', '') + "_" + index + ".png")
+            these_notes.push($('.hold_note').eq(index).text())
+        }
+    })
+    inner = {}
+    inner.image_paths = these_images
+    inner.notes = these_notes
+    az.hold_value.material[az.hold_value.paper_name] = inner
+    params = {
+        "material": JSON.stringify(az.hold_value.material)
+    }
+    az.call_api({
+        "url": "http://127.0.0.1:5000/save_material/",
+        "parameters": params
     })
 }

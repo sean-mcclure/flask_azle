@@ -47,15 +47,17 @@ function pop_papers() {
                 "margin-bottom": "10px",
                 "width": "90%"
             })
+            az.focus_element("search_papers", 1)
             az.hide_and_seek("search_papers", 1, {
                 "show_class": "my_paper_button"
             })
             az.call_multiple({
                 "iterations": az.hold_value.my_papers.length,
                 "function": function(elem, index) {
+                    if(az.hold_value.my_papers[index] !== 'blank.pdf') {
                     az.add_button("papers_modal_content", 1, {
                         "this_class": "my_paper_button",
-                        "text": az.hold_value.my_papers[index].replace('pdf', '')
+                        "text": az.hold_value.my_papers[index].replace('.pdf', '')
                     })
                     az.all_style_button("my_paper_button", {
                         "width": "90%",
@@ -70,6 +72,7 @@ function pop_papers() {
                         "key": "store_title",
                         "value": az.hold_value.my_papers[index]
                     })
+                    }
                 }
             })
             az.all_add_event("my_paper_button", {
@@ -90,6 +93,25 @@ function pop_papers() {
                         "key": "store_title"
                     })
                     $('.show_paper').attr('src', 'papers/' + this_paper)
+                    az.empty_contents("my_sections", 2)
+                    az.call_multiple({
+                        "iterations" : Object.keys(az.hold_value.material).length,
+                        "function" : function(elem, index) {
+                           if(Object.keys(az.hold_value.material)[index] == this_paper) {
+                               Object.values(az.hold_value.material)[index].image_paths.forEach(function(path, index_b) {
+                                az.components.add_uploaded_image(index_b, path)
+                                az.add_html("uploaded_img_layout_cells", (index_b*2) + 2, {
+                                    "html": "<div class='hold_note' style='color: white'>" + Object.values(az.hold_value.material)[index].notes[index_b] + "</div>"
+                                })
+                                az.all_style_html("hold_note", {
+                                    "margin-bottom": "5px",
+                                    "max-width": "370px",
+                                    "text-align": "left"
+                                })
+                            })
+                           }
+                        }
+                    })
                 }
             })
         }

@@ -31,60 +31,9 @@ az.components = {
             "type": "upload",
             "function": function(data) {
                 az.hold_value.lyt_cnt++
-                az.add_layout("my_sections", 2, {
-                    "this_class": "uploaded_img_layout",
-                    "row_class": "uploaded_img_layout_rows",
-                    "cell_class": "uploaded_img_layout_cells",
-                    "number_of_rows": 2,
-                    "number_of_columns": 1
-                })
-                az.all_style_layout("uploaded_img_layout", {
-                    "height": "auto",
-                    "width": "auto",
-                    "display": "inline",
-                    "border": 0
-                })
-                az.style_layout("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 2, {
-                    "padding-left": "20px"
-                })
-                az.add_image("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 1, {
-                    "this_class": "uploaded_image",
-                    "image_data": data
-                })
-                az.all_style_image("uploaded_image", {
-                    "width": "400px",
-                    "border-radius": "6px",
-                    "margin-left": "15px",
-                    "margin-right": "15px",
-                    "cursor": "pointer",
-                    "border": "2px solid #f7f1e3"
-                })
-                az.add_event("uploaded_image", az.last_class_instance("uploaded_image"), {
-                    "type": "click",
-                    "function": function(this_id) {
-                        pop_notes()
-                        az.hold_value.clicked_img_id = this_id
-                    }
-                })
-                rem_id = 'rem_' + az.makeid()
-                az.add_html("uploaded_img_layout_cells", (az.hold_value.lyt_cnt * 2) + 1, {
-                    "html": "<div class='remove_pic' id='" + rem_id + "'>X</div>",
-                    "prepend": true
-                })
-                az.all_style_html("remove_pic", {
-                    "font-size": "22px",
-                    "color": "gold",
-                    "float": "left",
-                    "margin-left": "20px",
-                    "cursor": "pointer"
-                })
-                az.add_event("remove_pic", az.last_class_instance("remove_pic"), {
-                    "type": "click",
-                    "function": function(this_id) {
-                        az.components.confirm_delete(this_id)
-                    }
-                })
-                save_material()
+                az.hold_value.this_image_data = data
+                az.components.add_uploaded_image(az.hold_value.lyt_cnt, az.hold_value.this_image_data)
+                save_images()
             }
         })
     },
@@ -213,5 +162,67 @@ az.components = {
                 az.close_modal()
             }
         })
+    },
+    "add_uploaded_image" : function add_uploaded_image(cnt, data) {
+        az.add_layout("my_sections", 2, {
+                    "this_class": "uploaded_img_layout",
+                    "row_class": "uploaded_img_layout_rows",
+                    "cell_class": "uploaded_img_layout_cells",
+                    "number_of_rows": 2,
+                    "number_of_columns": 1
+                })
+                az.all_style_layout("uploaded_img_layout", {
+                    "height": "auto",
+                    "width": "auto",
+                    "display": "inline",
+                    "border": 0
+                })
+                az.style_layout("uploaded_img_layout_cells", (cnt * 2) + 2, {
+                    "padding-left": "20px"
+                })
+                if(data.includes("base64")) {
+                az.add_image("uploaded_img_layout_cells", (cnt * 2) + 1, {
+                    "this_class": "uploaded_image",
+                    "image_data": data
+                })
+                } else {
+                az.add_image("uploaded_img_layout_cells", (cnt * 2) + 1, {
+                    "this_class": "uploaded_image",
+                    "image_path": data
+                })
+                }
+                az.all_style_image("uploaded_image", {
+                    "width": "400px",
+                    "border-radius": "6px",
+                    "margin-left": "15px",
+                    "margin-right": "15px",
+                    "cursor": "pointer",
+                    "border": "2px solid #f7f1e3"
+                })
+                az.add_event("uploaded_image", az.last_class_instance("uploaded_image"), {
+                    "type": "click",
+                    "function": function(this_id) {
+                        pop_notes()
+                        az.hold_value.clicked_img_id = this_id
+                    }
+                })
+                rem_id = 'rem_' + az.makeid()
+                az.add_html("uploaded_img_layout_cells", (cnt * 2) + 1, {
+                    "html": "<div class='remove_pic' id='" + rem_id + "'>X</div>",
+                    "prepend": true
+                })
+                az.all_style_html("remove_pic", {
+                    "font-size": "22px",
+                    "color": "gold",
+                    "float": "left",
+                    "margin-left": "20px",
+                    "cursor": "pointer"
+                })
+                az.add_event("remove_pic", az.last_class_instance("remove_pic"), {
+                    "type": "click",
+                    "function": function(this_id) {
+                        az.components.confirm_delete(this_id)
+                    }
+                })
     }
 }

@@ -75,6 +75,7 @@ function pop_notes() {
                     "key": "store_img_notes",
                     "value": az.grab_value('notes_textarea', 1)
                 })
+                save_material()
                 az.close_modal()
             } else {
                 az.animate_element("notes_textarea", 1, {

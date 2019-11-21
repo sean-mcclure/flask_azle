@@ -1,12 +1,13 @@
 import os
+import re
+import glob
+import json
 from flask import Flask, request, jsonify
 import requests
 import slate
 import base64
 from io import BytesIO
 from PIL import Image
-import re
-import json
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from sklearn.cluster import KMeans
 
@@ -40,13 +41,6 @@ def pdf_parse():
     data['parse_pdf_response'] = extracted_text
     return (data)
 
-#@app.route("/save_my_papers/", methods=["GET"])
-#def save_my_papers():
-
-import re
-import json
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-
 @app.route("/doc2vec/", methods=["GET"])
 def doc2vec():
 
@@ -74,13 +68,13 @@ def doc2vec():
 
     return(data)
 
-@app.route("/list_papers/", methods=["GET"])
-def list_papers():
-    data['my_papers'] = os.listdir(request.args.get('directory'))
+@app.route("/list_files/", methods=["GET"])
+def list_files():
+    data['list_files'] = os.listdir(request.args.get('directory'))
     return(data)
 
-@app.route("/save_material/", methods=["GET"])
-def save_material():
+@app.route("/save_images/", methods=["GET"])
+def save_images():
     file = request.args.get('data')
     starter = file.find(',')
     image_data = file[starter + 1:]
@@ -88,6 +82,13 @@ def save_material():
     im = Image.open(BytesIO(base64.b64decode(image_data)))
     im.save(request.args.get('filename'))
     return('done')
+
+@app.route("/save_material/", methods=["GET"])
+def save_material():
+    text_file = open("data/material.json", "w")
+    text_file.write(request.args.get('material'))
+    text_file.close()
+    return ('done')
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
